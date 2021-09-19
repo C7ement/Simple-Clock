@@ -21,15 +21,21 @@ class MyTimePickerDialogDialog(val activity: SimpleActivity, val initialSeconds:
 
             my_time_picker_hours.value = initialSeconds / 3600
             my_time_picker_minutes.value = (initialSeconds) / 60 % 60
-            my_time_picker_seconds.value = initialSeconds % 60
+            my_time_picker_seconds.value = (initialSeconds % 60)/5
+
+            val numberValues = arrayOfNulls<String>(12)
+            for (i in 0..11) {
+                numberValues[i] = (i * 5).toString();
+            }
+            my_time_picker_seconds.displayedValues = numberValues;
         }
 
         AlertDialog.Builder(activity)
-                .setPositiveButton(R.string.ok, { dialog, which -> dialogConfirmed() })
-                .setNegativeButton(R.string.cancel, null)
-                .create().apply {
-                    activity.setupDialogStuff(view, this)
-                }
+            .setPositiveButton(R.string.ok, { dialog, which -> dialogConfirmed() })
+            .setNegativeButton(R.string.cancel, null)
+            .create().apply {
+                activity.setupDialogStuff(view, this)
+            }
     }
 
     private fun dialogConfirmed() {
@@ -37,7 +43,7 @@ class MyTimePickerDialogDialog(val activity: SimpleActivity, val initialSeconds:
             val hours = my_time_picker_hours.value
             val minutes = my_time_picker_minutes.value
             val seconds = my_time_picker_seconds.value
-            callback(hours * 3600 + minutes * 60 + seconds)
+            callback(hours * 3600 + minutes * 60 + seconds*5)
         }
     }
 }
